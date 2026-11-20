@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/*
+  Palette
+  Contrast (WCAG): text on every palette color passes AA (>= 6.6:1).
+  White text on primary/secondary/accent FAILS, so buttons and badges
+  always use the dark --text color on top of a colored background.
+  --primary-ink / --accent-ink are darker shades used only for text
+  on light backgrounds (links, warnings): both >= 6.4:1 on --background.
+*/
+:root {
+  --text: #050c0d;
+  --background: #f7fbfc;
+  --primary: #4da3b6;
+  --secondary: #daa4bf;
+  --accent: #c58672;
+
+  --surface: #ffffff;
+  --muted: #4a5759;
+  --primary-ink: #22616f;
+  --accent-ink: #8a4a36;
+  --primary-soft: #dcedf1;
+  --secondary-soft: #f5e6ee;
+  --accent-soft: #f3e2dc;
+  --danger: #a3261b;
+  --danger-soft: #fbe5e2;
+  --success-soft: #dff0e4;
+  --success-ink: #1f5f33;
+}
+
+@theme inline {
+  --color-text: var(--text);
+  --color-background: var(--background);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-primary-ink: var(--primary-ink);
+  --color-accent-ink: var(--accent-ink);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary-soft: var(--secondary-soft);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success-soft: var(--success-soft);
+  --color-success-ink: var(--success-ink);
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  font-size: 100%; /* respects the user's browser font-size setting */
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* One clear, always-visible focus style for keyboard users */
+:focus-visible {
+  outline: 3px solid var(--text);
+  outline-offset: 2px;
+}
+
+/* In the base layer so utilities and .btn can override it */
+@layer base {
+  a {
+    color: var(--primary-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border-2 border-text px-4 py-2.5 text-base font-semibold no-underline min-h-11 cursor-pointer;
+    color: var(--text);
+  }
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-60;
+  }
+  .btn-primary {
+    @apply bg-primary hover:bg-[#3f95a8];
+  }
+  .btn-secondary {
+    @apply bg-surface hover:bg-primary-soft;
+  }
+  .btn-danger {
+    @apply bg-danger-soft hover:bg-[#f6d0cb];
+  }
+  .btn:hover {
+    text-decoration: none;
+  }
+
+  .field-label {
+    @apply mb-1 block font-semibold;
+  }
+  .field-hint {
+    @apply mt-1 block text-sm text-muted;
+  }
+  .field-error {
+    @apply mt-1 block text-sm font-semibold text-danger;
+  }
+  .input {
+    @apply block w-full rounded-md border-2 border-text bg-surface px-3 py-2 text-base min-h-11;
+  }
+  .input[aria-invalid="true"] {
+    border-color: var(--danger);
+  }
+
+  .panel {
+    @apply rounded-md border-2 border-text bg-surface p-5;
+  }
+}
